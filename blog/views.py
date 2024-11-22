@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from  django.http import HttpResponse
+from  django.http import HttpResponse, Http404
 import logging
 from .models import Post
 
@@ -18,9 +18,14 @@ def index(request):
 
 def detail(request, post_id):
     # post = next((item for item in posts if item['id']==post_id), None)   # static data
-    
+
     posts = Post.objects.all()
-    post = Post.objects.get(pk=post_id)
+    
+    try:
+        post = Post.objects.get(pk=post_id)
+    except Post.DoesNotExist:
+        raise Http404("Post does not exist")
+    
     # logger = logging.getLogger('TESTING')
     # logger.debug(f"post is available {post}")
     return render(request, 'blog/detail.html', {'post':post, 'posts':posts})
