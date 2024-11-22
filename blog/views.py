@@ -15,8 +15,8 @@ def index(request):
 
 def detail(request, post_id):
     post = next((item for item in posts if item['id']==post_id), None)
-    logger = logging.getLogger('TESTING')
-    logger.debug(f"post is available {post}")
+    # logger = logging.getLogger('TESTING')
+    # logger.debug(f"post is available {post}")
     return render(request, 'blog/detail.html', {'post':post, 'posts':posts})
 
 def old_url_redirect(requset):
