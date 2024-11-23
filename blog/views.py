@@ -23,12 +23,13 @@ def detail(request, slug):
     
     try:
         post = Post.objects.get(slug=slug)
+        related_posts = Post.objects.filter(category = post.category).exclude(pk=post.id)
     except Post.DoesNotExist:
         raise Http404("Post does not exist")
     
     # logger = logging.getLogger('TESTING')
     # logger.debug(f"post is available {post}")
-    return render(request, 'blog/detail.html', {'post':post, 'posts':posts})
+    return render(request, 'blog/detail.html', {'post':post, 'related_posts':related_posts})
 
 def old_url_redirect(requset):
     return redirect("blog:new_url")

@@ -15,8 +15,8 @@
                 <div class="card-body">
                   <h5 class="card-title">Related Posts</h5>
                   <ul class="list-unstyled">
-                    {% for post in posts %}
-                      <li><a href="{% url 'blog:detail' post.slug %}">Post {{post.id}}</a></li>
+                    {% for related_post in related_posts %}
+                      <li><a style="text-decoration:None;" href="{% url 'blog:detail' slug=related_post.slug %}">{{related_post.title}}</a></li>
                     {% endfor %}
                   </ul>
                 </div>
