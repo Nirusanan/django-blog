@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from  django.http import HttpResponse, Http404
 import logging
 from .models import Post
+from django.core.paginator import Paginator
 
 ## static data
 # posts = [
@@ -12,9 +13,15 @@ from .models import Post
 #     ]
 
 def index(request):
-    posts = Post.objects.all()
+    all_posts = Post.objects.all()
     blog_title = "Latest Posts"    
-    return render(request, 'blog/index.html', {'blog_title': blog_title, 'posts': posts})
+
+    # pagination
+    paginator = Paginator(all_posts, 5)
+    page_num = request.GET.get('page')
+    page_posts =  paginator.get_page(page_num)
+
+    return render(request, 'blog/index.html', {'blog_title': blog_title, 'page_posts': page_posts})
 
 def detail(request, slug):
     # post = next((item for item in posts if item['id']==post_id), None)   # static data
