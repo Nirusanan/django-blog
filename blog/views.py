@@ -16,13 +16,13 @@ def index(request):
     blog_title = "Latest Posts"    
     return render(request, 'blog/index.html', {'blog_title': blog_title, 'posts': posts})
 
-def detail(request, post_id):
+def detail(request, slug):
     # post = next((item for item in posts if item['id']==post_id), None)   # static data
 
     posts = Post.objects.all()
     
     try:
-        post = Post.objects.get(pk=post_id)
+        post = Post.objects.get(slug=slug)
     except Post.DoesNotExist:
         raise Http404("Post does not exist")
     
