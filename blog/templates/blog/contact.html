@@ -1,49 +1,56 @@
 {% extends 'blog/base.html' %}
 
 {% block content %}
-    <div class="container-fluid ">
-        <div class="d-flex justify-content-center mt-5">
-            <div class="d-flex gap-3 flex-column">
-                <h3>Contact Form</h3>
-                <!-- Error Message-->
-                {% for field in form %}
-                    {% if field.errors %}
-                        <div class="col-12">
-                            <span class="fw-bold"> {{field.label_tag}}</span>
-                            {% for error in field.errors%}
-                            <span class="text-danger"> {{error}} </span>
-                            {% endfor %}
+    <div class="container-fluid py-5 bg-light">
+        <div class="d-flex justify-content-center">
+            <div class="card shadow-lg p-4 border-0 rounded" style="max-width: 600px; width: 100%;">
+                <div class="card-body">
+                    <h3 class="text-center text-primary mb-4">Get in Touch</h3>
+                    
+                    {% if success_message %}
+                        <div id="successMessage" class="alert alert-success text-center fade show" role="alert">   
+                            {{ success_message }}
                         </div>
                     {% endif %}
-                {% endfor %}
 
-                <!-- Success message -->
-                {% if success_message %}
-                    <div class="alert alert-success" role="alert">   
-                        {{success_message}}
-                    </div>
-                {% endif %}
+                    {% for field in form %}
+                        {% if field.errors %}
+                            <div class="alert alert-danger">
+                                <strong>{{ field.label_tag }}</strong>
+                                {% for error in field.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
 
-                <form method="post" class="row g-3">
-                    {% csrf_token %} 
-                    <div class="col-md-6">
-                        <label for="name" class="form-label">Name</label>
-                        <input type="text" class="form-control" id="name" name="name" value="{{name}}">
-                    </div>
-                    <div class="col-md-6">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" name="email" value="{{email}}">
-                    </div>
-                    <div class="col-12">
-                        <label for="message" class="form-label">Message</label>
-                        <textarea class="form-control" id="message" name="message" rows="4">{{message}}</textarea>
-                    </div>
-                    <div class="col-12">
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </div>
-                </form>
+                    <form method="post" class="needs-validation" novalidate>
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Full Name</label>
+                            <input type="text" class="form-control" id="name" name="name" value="{{ name }}">
+                            <div class="invalid-feedback">Please enter your name.</div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email Address</label>
+                            <input type="email" class="form-control" id="email" name="email" value="{{ email }}">
+                            <div class="invalid-feedback">Please enter a valid email address.</div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="message" class="form-label">Message</label>
+                            <textarea class="form-control" id="message" name="message" rows="5">{{ message }}</textarea>
+                            <div class="invalid-feedback">Please enter your message.</div>
+                        </div>
+                        
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg">Send Message</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-        
     </div>
 {% endblock %}
+
